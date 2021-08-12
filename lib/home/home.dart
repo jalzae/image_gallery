@@ -145,7 +145,7 @@ class HomeGrid extends StatelessWidget {
                     width: 130,
                     child: CachedNetworkImage(
                       imageUrl:
-                          controller.cartList.value.photos[index].src.original,
+                          controller.cartList.value.photos[index].src.small,
                       height: 140,
                       fit: BoxFit.cover,
                       placeholder: (context, url) => Shimmer.fromColors(
@@ -198,7 +198,7 @@ class HomeList extends StatelessWidget {
                             height: 130,
                             child: CachedNetworkImage(
                               imageUrl: controller
-                                  .cartList.value.photos[index].src.original,
+                                  .cartList.value.photos[index].src.small,
                               height: 140,
                               fit: BoxFit.cover,
                               placeholder: (context, url) => Shimmer.fromColors(

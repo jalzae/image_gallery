@@ -11,7 +11,7 @@ class HomeService {
       'Authorization': apikey,
     };
     var request = http.Request('GET',
-        Uri.parse('https://api.pexels.com/v1/curated?page=1&per_page=20'));
+        Uri.parse('https://api.pexels.com/v1/curated?page=1&per_page=10'));
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
@@ -33,7 +33,7 @@ class HomeService {
     var request = http.Request(
         'GET',
         Uri.parse(
-            'https://api.pexels.com/v1/curated?page=$paging&per_page=20'));
+            'https://api.pexels.com/v1/curated?page=$paging&per_page=10'));
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
