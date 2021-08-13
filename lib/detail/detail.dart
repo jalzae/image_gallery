@@ -2,10 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
+// ignore: must_be_immutable
 class DetailPic extends StatelessWidget {
   String pic;
   String photo;
-  DetailPic({Key? key, required this.pic, required this.photo});
+  DetailPic({ required this.pic, required this.photo});
 
   @override
   Widget build(BuildContext context) {

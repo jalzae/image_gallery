@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:evermos_app/home/model/photo_model.dart';
 import 'package:evermos_app/home/service/homeservice.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 class GalleryController extends GetxController {
   var isLoading = true.obs;
@@ -18,7 +21,7 @@ class GalleryController extends GetxController {
   void onInit() {
     isLoading(true);
     try {
-      HomeService.checkConnection().then((value) {
+      checkConnection().then((value) {
         print('mencoba connect...');
         print(value);
         if (value == 1) {
@@ -37,8 +40,9 @@ class GalleryController extends GetxController {
       isLoading(false);
       koneksi.value = 0;
       Get.snackbar('Warning', 'Youre not connected');
+    } finally {
+      isLoading(false);
     }
-
     super.onInit();
   }
 
@@ -60,13 +64,22 @@ class GalleryController extends GetxController {
     print("onLoadMore");
     isLoading2(true);
     try {
-      var todos = await HomeService.getLoadPhotos(halaman.value);
-      cartList.value.photos.addAll(todos.photos);
-      cartList.refresh();
-      update();
-      print('Berhasil load more');
-    } finally {
+      checkConnection().then((value) async {
+        if (value == 1) {
+          var todos = await HomeService.getLoadPhotos(halaman.value);
+          cartList.value.photos.addAll(todos.photos);
+          cartList.refresh();
+          update();
+          print('Berhasil load more');
+          Get.snackbar('Informaion', 'Success Load More');
+        } else {
+          isLoading2(false);
+          Get.snackbar('Caution', 'Youre Not Connected');
+        }
+      });
+    } catch (e) {
       isLoading2(false);
+      Get.snackbar('Caution', 'Youre Not Connected');
     }
   }
 
@@ -78,5 +91,18 @@ class GalleryController extends GetxController {
   void changeGrid() {
     view.value = 1;
     print('change view to grid');
+  }
+
+  checkConnection() async {
+    try {
+      final response = await InternetAddress.lookup('www.google.com');
+      if (response.isNotEmpty && response[0].rawAddress.isNotEmpty) {
+        return 1;
+      } else {
+        return 0;
+      }
+    } on SocketException catch (_) {
+      return 0;
+    }
   }
 }

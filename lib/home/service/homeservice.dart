@@ -47,14 +47,4 @@ class HomeService {
     }
   }
 
-  static Future<int> checkConnection() async {
-    http.Response response = await http
-        .get(Uri.parse('https://www.google.com'))
-        .timeout(Duration(seconds: 5));
-    if (response.statusCode == 200) {
-      return 1;
-    } else {
-      return 0;
-    }
-  }
 }
